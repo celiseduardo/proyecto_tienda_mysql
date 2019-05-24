@@ -1,0 +1,11 @@
+Factura Simplificada
+-----------------------------------------------------------------------------
+Código         : 224
+Nombre         : Lenovo Ideapad 530S
+Descripción    : Ordenador portátil con Intel Core i5, 8GB RAM, 256GB SSD
+Precio         : 599,00
+
+-----------------------------------------------------------------------------
+El precio TOTAL es: 599 Euros
+Atendido por: Mario
+

@@ -16,37 +16,37 @@ public class GestionaArchivos {
 
     public static void imprimirFactura(List<Producto> productos, String empleado) {
 
-        String archivo = "factura.txt";
-        Path path = Paths.get(archivo);
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+        try
+        {
+            fichero = new FileWriter("factura.txt");
+            pw = new PrintWriter(fichero);
 
-        if (!Files.exists(path)) {
+            var total = 0;
+            pw.println("Factura Simplificada");
+            pw.println("-----------------------------------------------------------------------------");
+            for (int i = 0; i < productos.size(); i++) {
+                pw.printf("%-15s: %s%n", "Código", productos.get(i).getCodigo());
+                pw.printf("%-15s: %s%n", "Nombre", productos.get(i).getNombre());
+                pw.printf("%-15s: %s%n", "Descripción", productos.get(i).getDescripcion());
+                pw.printf("%-15s: %.2f%n", "Precio", productos.get(i).getPrecio());
+                pw.println("");
+                total += productos.get(i).getPrecio();
+            }
+            pw.println("-----------------------------------------------------------------------------");
+            pw.println("El precio TOTAL es: " + total + " Euros");
+            pw.println("Atendido por: " + empleado);
+            pw.println("");
+
+        } catch (Exception e) {
+            muestraMensaje("Error. No se ha podido escribir en el archivo para la factura", Color.ERROR);
+        } finally {
             try {
-                Files.createFile(path);
-                try {
-                    FileWriter fileWriter = new FileWriter(archivo);
-                    PrintWriter pw = new PrintWriter(fileWriter);
-                    var total = 0;
-                    pw.println("Factura Simplificada");
-                    pw.println("-----------------------------------------------------------------------------");
-                    for (int i = 0; i < productos.size(); i++) {
-                        pw.printf("%-15s: %s%n", "Código", productos.get(i).getCodigo());
-                        pw.printf("%-15s: %s%n", "Nombre", productos.get(i).getNombre());
-                        pw.printf("%-15s: %s%n", "Descripción", productos.get(i).getDescripcion());
-                        pw.printf("%-15s: %.2f%n", "Precio", productos.get(i).getPrecio());
-                        pw.println("");
-                        total += productos.get(i).getPrecio();
-                    }
-                    pw.println("-----------------------------------------------------------------------------");
-                    pw.println("El precio TOTAL es: " + total + " Euros");
-                    pw.println("Atendido por: " + empleado);
-                    pw.println("");
-                    pw.close();
-
-                } catch (IOException ex) {
-                    muestraMensaje("Error. No se ha podido escribir en el archivo para la factura", Color.ERROR);
-                }
-            } catch (IOException ex) {
-                muestraMensaje("No se puede crear el archivo para la factura", Color.ERROR);
+                if (null != fichero)
+                    fichero.close();
+            } catch (Exception e2) {
+                muestraMensaje("Error. No se ha podido escribir en el archivo para la factura", Color.ERROR);
             }
         }
 
